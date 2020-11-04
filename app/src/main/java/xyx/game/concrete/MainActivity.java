@@ -183,7 +183,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置用水量
         float mw=getmw(d,tld, j);//设置用水量为150kg
 
-        final float mc=mw/wb;//水泥用量
+        final float mc=mw/wb;//胶凝材料用量
+
+        float mf=mc/100*f;//粉煤灰质量
+        float mkf=mc/100*kf;//矿粉质量
 
         //确定砂率
 
@@ -201,15 +204,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final float mg=ms*(1-bs)/bs;
         final float all=mc+mg+ms+mw;
 
-        String string="容重法配比"+"\n水泥强度"+fce+"\n混凝土强度c"+c+"\n配制GB标准强度"+ getfcu0(c) +
+
+
+        String string="容重法配比"+
+                "\n减水率"+j+
+                "\n水泥强度"+fce+"\n混凝土强度c"+c+"\n配制GB标准强度"+ getfcu0(c) +
                 "\n理论胶砂强度"+fb+
                 "\n煤灰"+f+"%矿粉"+kf+"%"+
-                "\n水灰比"+ wb
+                "\n设计所需水灰比"+ wb
                 +"\n塌落度"+tld
                 +"\n碎石最大直径"+d+"mm"+
-                "\n减水率"+j+"\n用水量"+mw+"\n水泥用量"+mc*(100-f-kf)/100
-                +"\n煤灰用量"+mc*f/100
-                +"\n矿粉用量"+mc*kf/100
+                "\n胶凝材料"+mc+
+                "\n用水量"+mw+
+                "\n水泥用量"+mc*(100-f-kf)/100
+                +"\n煤灰用量"+mf
+                +"\n矿粉用量"+mkf
                 +"\n砂率"+bs+"\n石头"+mg+"\n砂"+ms+"\n合计"+all;
         return string;
     }
