@@ -8,116 +8,301 @@
 
     <TextView
         android:id="@+id/tv"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="许业旭混凝土配合比设计\n依据JGJ 55-2011
+\n根据实际调整，可供参考"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="C30"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <Button
-        android:id="@+id/button35"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="C35"
-        app:layout_constraintStart_toEndOf="@+id/button30"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button40"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="C40"
-        app:layout_constraintStart_toEndOf="@+id/button35"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button15"
+        android:id="@+id/bt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="C15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button30" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button20"
+        android:id="@+id/bt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="C20"
-        app:layout_constraintStart_toEndOf="@+id/button15"
-        app:layout_constraintTop_toBottomOf="@+id/button35" />
+        app:layout_constraintStart_toEndOf="@+id/bt1"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button25"
+        android:id="@+id/bt3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="C25"
-        app:layout_constraintStart_toEndOf="@+id/button20"
-        app:layout_constraintTop_toBottomOf="@+id/button40" />
+        app:layout_constraintStart_toEndOf="@+id/bt2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button45"
+        android:id="@+id/bt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C30"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt1" />
+
+    <Button
+        android:id="@+id/bt5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C35"
+        app:layout_constraintStart_toEndOf="@+id/bt4"
+        app:layout_constraintTop_toBottomOf="@+id/bt2" />
+
+    <Button
+        android:id="@+id/bt6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C40"
+        app:layout_constraintStart_toEndOf="@+id/bt5"
+        app:layout_constraintTop_toBottomOf="@+id/bt3" />
+
+    <Button
+        android:id="@+id/bt7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="c45"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button15" />
+        app:layout_constraintTop_toBottomOf="@+id/bt4" />
 
     <Button
-        android:id="@+id/button50"
+        android:id="@+id/bt8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="C50"
-        app:layout_constraintStart_toEndOf="@+id/button45"
-        app:layout_constraintTop_toBottomOf="@+id/button20" />
+        app:layout_constraintStart_toEndOf="@+id/bt7"
+        app:layout_constraintTop_toBottomOf="@+id/bt5" />
 
     <Button
-        android:id="@+id/button55"
+        android:id="@+id/bt9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="C55"
-        app:layout_constraintStart_toEndOf="@+id/button50"
-        app:layout_constraintTop_toBottomOf="@+id/button25" />
+        app:layout_constraintStart_toEndOf="@+id/bt8"
+        app:layout_constraintTop_toBottomOf="@+id/bt6" />
 
-    <TextView
-        android:id="@+id/tv1"
+    <CheckBox
+        android:id="@+id/cb09"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:checked="true"
+        android:text="32.5"
+        app:layout_constraintTop_toBottomOf="@+id/bt7"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <CheckBox
+        android:id="@+id/cb10"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="42.5"
+        app:layout_constraintStart_toEndOf="@+id/cb09"
+        app:layout_constraintTop_toBottomOf="@+id/bt8"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/cb11"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="52.5"
+        app:layout_constraintStart_toEndOf="@+id/cb10"
+        app:layout_constraintTop_toBottomOf="@+id/bt8"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/cb01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="碎石最大直径31.5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:checked="true"
+        android:text="16mm"
+        android:textSize="20px"
+        app:layout_constraintStart_toEndOf="@+id/bt3"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="7dp" />
 
-    <TextView
-        android:id="@+id/tv2"
+    <CheckBox
+        android:id="@+id/cb02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="粉煤灰掺量"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+        android:text="20mm"
+        android:textSize="20px"
+        app:layout_constraintStart_toEndOf="@+id/cb01"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="7dp" />
+
+    <CheckBox
+        android:id="@+id/cb03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="31.5mm"
+        android:textSize="20px"
+        app:layout_constraintStart_toEndOf="@+id/bt6"
+        app:layout_constraintTop_toBottomOf="@+id/cb01"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/cb04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="40mm"
+        android:textSize="20px"
+        app:layout_constraintEnd_toEndOf="@+id/cb02"
+        app:layout_constraintTop_toBottomOf="@+id/cb02"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/cb05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I-Ⅱ级煤灰"
+        android:checked="true"
+        android:textSize="25px"
+        app:layout_constraintStart_toEndOf="@+id/bt9"
+        app:layout_constraintTop_toBottomOf="@+id/cb03"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/cb07"
+
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S75矿粉"
+        android:textSize="25px"
+        app:layout_constraintStart_toEndOf="@+id/bt9"
+        app:layout_constraintTop_toBottomOf="@+id/cb05" />
+
+    <CheckBox
+        android:id="@+id/cb06"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ⅲ级煤灰"
+        android:textSize="25px"
+        app:layout_constraintStart_toEndOf="@+id/cb05"
+        app:layout_constraintTop_toBottomOf="@+id/cb04"
+        tools:ignore="MissingConstraints" />
+
+    <CheckBox
+        android:id="@+id/cb08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S95矿粉"
+        android:textSize="25px"
+        app:layout_constraintEnd_toEndOf="@+id/cb06"
+        app:layout_constraintStart_toEndOf="@+id/cb05"
+        app:layout_constraintTop_toBottomOf="@+id/cb06"
+        tools:ignore="MissingConstraints" />
+
+    <SeekBar
+        android:id="@+id/sb1"
+        style="@android:style/Widget.SeekBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/cb08"
+        app:layout_constraintHorizontal_bias="0.653"
+        app:layout_constraintStart_toEndOf="@+id/bt7"
+        app:layout_constraintTop_toBottomOf="@+id/cb11" />
+
+    <SeekBar
+        android:id="@+id/sb2"
+        style="@android:style/Widget.SeekBar"
+        android:layout_width="300dp"
+        android:min="10"
+        android:max="230"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/sb1"
+        app:layout_constraintStart_toStartOf="@+id/sb1"
+        app:layout_constraintTop_toBottomOf="@+id/sb1" />
+
+    <SeekBar
+        android:id="@+id/sb3"
+        style="@android:style/Widget.SeekBar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="60"
+        app:layout_constraintEnd_toEndOf="@+id/sb2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/sb2"
+        app:layout_constraintTop_toBottomOf="@+id/sb2" />
+
+    <SeekBar
+        android:id="@+id/sb4"
+        style="@android:style/Widget.SeekBar"
+        android:layout_width="300dp"
+        android:max="60"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/sb3"
+        app:layout_constraintStart_toStartOf="@+id/sb3"
+        app:layout_constraintTop_toBottomOf="@+id/sb3" />
 
     <TextView
-        android:id="@+id/tv3"
+        android:id="@+id/tv01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="减水率"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sb1"
+        app:layout_constraintEnd_toStartOf="@+id/sb1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sb1" />
+
+    <TextView
+        android:id="@+id/tv02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="塌落度"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sb2"
+        app:layout_constraintEnd_toStartOf="@+id/sb2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sb2" />
+
+    <TextView
+        android:id="@+id/tv03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="煤灰掺量"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sb3"
+        app:layout_constraintEnd_toStartOf="@+id/sb3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sb3" />
+
+    <TextView
+        android:id="@+id/tv04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="矿粉掺量"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/sb4"
+        app:layout_constraintEnd_toStartOf="@+id/sb4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sb4" />
 
     <TextView
-        android:id="@+id/tv4"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView9"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="减水率24%"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv3" />
+        android:textColor="#EF0628"
+        android:text="水灰比应该处于0.3-0.7之间，可通过更换水泥强度调解\n煤灰掺量+矿粉掺量之和应不大于55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv04" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
