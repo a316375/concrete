@@ -12,11 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="许业旭混凝土配合比设计\n依据JGJ 55-2011
-\n根据实际调整，可供参考"
+\n根据实际调整，可供参考\n基于P•Ⅱ硅酸盐水泥设计"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/tvts" />
 
     <Button
         android:id="@+id/bt1"
@@ -233,7 +233,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:max="60"
+        android:max="65"
         app:layout_constraintEnd_toEndOf="@+id/sb2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/sb2"
@@ -243,9 +243,9 @@
         android:id="@+id/sb4"
         style="@android:style/Widget.SeekBar"
         android:layout_width="300dp"
-        android:max="60"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:max="65"
         app:layout_constraintEnd_toEndOf="@+id/sb3"
         app:layout_constraintStart_toStartOf="@+id/sb3"
         app:layout_constraintTop_toBottomOf="@+id/sb3" />
@@ -295,14 +295,53 @@
         app:layout_constraintTop_toTopOf="@+id/sb4" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tvts"
         android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#EF0628"
-        android:text="水灰比应该处于0.3-0.7之间，可通过更换水泥强度调解\n煤灰掺量+矿粉掺量之和应不大于55"
+        android:text="普通混凝土水灰比应该处于0.3-0.7之间\n煤灰掺量+矿粉掺量之和应不大于65"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv04" />
+
+    <EditText
+        android:id="@+id/ed1"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="0"
+        android:inputType="numberDecimal|number"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="500g砂含水"
+        app:layout_constraintBottom_toBottomOf="@+id/tvts"
+        app:layout_constraintStart_toEndOf="@+id/tvts"
+        app:layout_constraintTop_toTopOf="@+id/tvts"
+        app:layout_constraintVertical_bias="0.411" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="g"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/ed1"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="容重2250"
+        app:layout_constraintStart_toEndOf="@+id/bt6"
+        app:layout_constraintTop_toBottomOf="@+id/cb07" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

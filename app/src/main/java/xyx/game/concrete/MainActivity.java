@@ -3,9 +3,12 @@ package xyx.game.concrete;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,SeekBar.OnSeekBarChangeListener {
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private   CheckBox cb1,cb2,cb3,cb4,cb5,cb6,cb7,cb8,cb9,cb10,cb11;//十一个框选框
     private TextView tv1,tv2,tv3,tv4;//进度条文字
     private SeekBar sb1,sb2,sb3,sb4;//进度条
+    private EditText ed;//含水量
+    private Switch mswitch;//容重开关
+    private TextView tvts;//提示text
 
 
     private  float tld,//塌落度
@@ -28,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             d,//碎石直径
             fce;//水泥强度
     private float f,kf;//煤灰掺量比，矿粉掺量比，
+    private  float sw;//砂的含水量
     private int sf,skf;//粉煤灰等级1:1-2级  2:3级，kf的1代表s75,2代表s95
+
+    private float rz;//容重
 
 
     private void in(){
@@ -80,6 +89,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        sb3.setOnSeekBarChangeListener(this);
        sb4.setOnSeekBarChangeListener(this);
 
+       tvts=findViewById(R.id.tvts);
+       tvts.setVisibility(View.INVISIBLE);
+
+
+       ed=findViewById(R.id.ed1);
+       mswitch=findViewById(R.id.switch1);
+       mswitch.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               if (mswitch.isChecked()){
+                   rz=2250.0f;
+
+               }
+               else {
+                   rz=2350.0f;
+               }
+           }
+       });
+
+
 
 
     }
@@ -101,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         kf=0;//矿粉掺量
         sf=1;//粉煤灰等级
         skf=1;//矿粉等级
+        sw=0;//水的含量默认为0
+        rz=2350;//容重默认2350
 
 
         in();//寻找id初始化
@@ -176,21 +207,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      //设置文字
     private String getworlds( float c){
 
-        float fb=getfb(f,kf,sf,skf);
-        //水灰比
-        float wb=getwb(fb,c);
+        tvts.setVisibility(View.INVISIBLE);
+        tvts.setText("");
+
+        sw=getsw();//获取含水率
+
+        float fb=getfb(f,kf,sf,skf);//获取胶砂强度
+
+        float wb=getwb(fb,c);//获取水灰比
+
 
         //设置用水量
-        float mw=getmw(d,tld, j);//设置用水量为150kg
+        float mw=getmw(d,tld, j);//获取初步用水量
 
         final float mc=mw/wb;//胶凝材料用量
 
         float mf=mc/100*f;//粉煤灰质量
         float mkf=mc/100*kf;//矿粉质量
 
+
+        tssay(wb);//提示开始提示适配错误
+
+
+
         //确定砂率
 
-        float bs= getsl(wb,tld,d)/100;//c30表的砂率，可调
+        float bs= getsl(wb,tld,d)/100;//获取砂率(通过水灰比跟石头直径)
 //        float pg= (float) 2.65,pc= (float) 3.1,ps= (float) 2.6;//密度--可调
 //        //公式辅助值 体积法有bug
 //        float x= (float) (990-mw-(mc/3.1));
@@ -199,14 +241,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        //计算砂
 //        final float ms=bs*mg/(1-bs);
 //        final float all=mc+mg+ms+mw;
-        //容重法2250
-        final float ms=(2350-mc-mw)*bs;
+        //容重法2350
+        float ms=(rz-mc-mw)*bs;
         final float mg=ms*(1-bs)/bs;
+
+        ms=ms*(100+sw)/100;//砂的用量=砂*(1+含水率)
+        mw=mw-(ms*sw/100);//用水量=原用水量-砂的水量
+
+
         final float all=mc+mg+ms+mw;
 
 
 
-        String string="容重法配比"+
+        String string="容重法配比"+" 砂含水率"+getsw()+
                 "\n减水率"+j+
                 "\n水泥强度"+fce+"\n混凝土强度c"+c+"\n配制GB标准强度"+ getfcu0(c) +
                 "\n理论胶砂强度"+fb+
@@ -223,6 +270,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return string;
     }
 
+    private void tssay(float wb) {
+        String ts="";
+        if (wb>0.7||wb<0.3){//针对硅酸盐水泥，区别于普通硅酸盐水泥
+            ts+="普通钢筋混凝土水灰比正常应处于0.3-0.7之间\n";
+        }
+
+
+        if(wb<=0.4){
+            if (kf==0&&f>45){ts+="粉煤灰超标45% ";}
+            if(f==0&&kf>65){ts+="矿粉超标65% ";}
+            if (f!=0&&kf!=0&&kf+f>65){ts+="混合料超标65% ";}
+        }
+        if (wb>0.4){
+            if (kf==0&&f>40){ts+="粉煤灰超标40% ";}
+            if(f==0&&kf>55){ts+="矿粉超标55% ";}
+            if (f!=0&&kf!=0&&kf+f>55){ts+="混合料超标55% ";}
+        }
+
+        tvts.setText(ts);
+        tvts.setVisibility(View.VISIBLE);
+    }
 
 
     /**混合胶砂强度计算,用40表示40%,不要传入0.4;
@@ -376,6 +444,16 @@ float jz=0;//均值
         return sl;
     }
 
+    //获取砂率
+    private float getsw(){
+
+        if (TextUtils.isEmpty(ed.getText()))return 0.0f;
+        float sw=Float.parseFloat(ed.getText().toString())>=500.0f?
+                0.00f:
+                100*Float.parseFloat(ed.getText().toString())/(500.0f-Float.parseFloat(ed.getText().toString()));
+        return  sw;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -469,7 +547,6 @@ float jz=0;//均值
                 break;
             case R.id.sb2:
                 tv2.setText("塌落度"+progress);
-
                 tld=progress;
                 break;
             case R.id.sb3:
@@ -498,11 +575,15 @@ float jz=0;//均值
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         switch (seekBar.getId()){
-            case R.id.sb1:break;
-            case R.id.sb2:break;
-            case R.id.sb3:break;
-            case R.id.sb4:break;
+            case R.id.sb1:j=seekBar.getProgress();break;
+            case R.id.sb2:tld=seekBar.getProgress();break;
+            case R.id.sb3:f=seekBar.getProgress();break;
+            case R.id.sb4:kf=seekBar.getProgress();break;
             default:break;
         }
     }
+
+
+
+
 }
