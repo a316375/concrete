@@ -575,7 +575,7 @@ float jz=0;//均值
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         switch (seekBar.getId()){
-            case R.id.sb1:j=seekBar.getProgress();break;
+            case R.id.sb1:j=seekBar.getProgress();break;//
             case R.id.sb2:tld=seekBar.getProgress();break;
             case R.id.sb3:f=seekBar.getProgress();break;
             case R.id.sb4:kf=seekBar.getProgress();break;
