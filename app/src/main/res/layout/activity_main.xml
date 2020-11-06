@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="许业旭碎石混凝土配合比设计\n依据JGJ 55-2011
-\n根据实际调整，可供参考\n基于P•Ⅱ硅酸盐水泥设计\n基于回归系数0.53*0.2\n基于中砂用水量"
+\n根据实际调整，可供参考\n基于P•Ⅱ硅酸盐水泥设计
+\n基于回归系数0.53*0.2\n(提示:泵送砂率一般为35%-45%水灰比应小于0.6)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
