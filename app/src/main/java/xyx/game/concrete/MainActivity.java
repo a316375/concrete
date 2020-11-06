@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置用水量
         float mw=getmw(d,tld, j);//获取初步用水量
 
+
         mw=changmw(mw);//根据砂模式初步调整用水量
 
         final float mc=mw/wb;//胶凝材料用量
