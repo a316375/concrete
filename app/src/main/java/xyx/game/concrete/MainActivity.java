@@ -11,6 +11,9 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,SeekBar.OnSeekBarChangeListener {
 
     //1确定混凝土配制强度
@@ -22,11 +25,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //7初步配合比
 
     private   CheckBox cb1,cb2,cb3,cb4,cb5,cb6,cb7,cb8,cb9,cb10,cb11;//十一个框选框
-    private TextView tv1,tv2,tv3,tv4;//进度条文字
-    private SeekBar sb1,sb2,sb3,sb4;//进度条
+    private TextView tv1,tv2,tv3,tv4,tv5;//进度条文字
+    private SeekBar sb1,sb2,sb3,sb4,sb5;//进度条
     private EditText ed;//含水量
-    private Switch mswitch;//容重开关
+    private Switch mswitch,sw2;//容重开关,砂率开关
     private TextView tvts;//提示text
+
+    private Switch sw3,sw4,sw5,sw6,sw7;//用水量控制因素2
 
 
     private  float tld,//塌落度
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int sf,skf;//粉煤灰等级1:1-2级  2:3级，kf的1代表s75,2代表s95
 
     private float rz;//容重
+    float bs;//砂率
 
 
     private void in(){
@@ -78,16 +84,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        tv2=findViewById(R.id.tv02);
        tv3=findViewById(R.id.tv03);
        tv4=findViewById(R.id.tv04);
+       tv5=findViewById(R.id.tv05);
+       tv5.setVisibility(View.INVISIBLE);
 
        sb1=findViewById(R.id.sb1);
        sb2=findViewById(R.id.sb2);
        sb3=findViewById(R.id.sb3);
        sb4=findViewById(R.id.sb4);
+       sb5=findViewById(R.id.sb5);
+       sb5.setVisibility(View.INVISIBLE);
 
        sb1.setOnSeekBarChangeListener(this);
        sb2.setOnSeekBarChangeListener(this);
        sb3.setOnSeekBarChangeListener(this);
        sb4.setOnSeekBarChangeListener(this);
+       sb5.setOnSeekBarChangeListener(this);
 
        tvts=findViewById(R.id.tvts);
        tvts.setVisibility(View.INVISIBLE);
@@ -108,6 +119,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            }
        });
 
+       sw2=findViewById(R.id.sw2);
+       sw2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               if (sw2.isChecked()){
+                   tv5.setVisibility(View.VISIBLE);
+                   sb5.setVisibility(View.VISIBLE);
+               }else {
+                   tv5.setVisibility(View.INVISIBLE);
+                   sb5.setVisibility(View.INVISIBLE);
+               }
+           }
+       });
+
+       sw3=findViewById(R.id.sw3);
+       sw4=findViewById(R.id.sw4);
+       sw5=findViewById(R.id.sw5);
+       sw6=findViewById(R.id.sw6);
+       sw7=findViewById(R.id.sw7);
+
+       sw3.setOnClickListener(this);
+       sw4.setOnClickListener(this);
+       sw5.setOnClickListener(this);
+       sw6.setOnClickListener(this);
+       sw7.setOnClickListener(this);
 
 
 
@@ -220,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置用水量
         float mw=getmw(d,tld, j);//获取初步用水量
 
+        mw=changmw(mw);//根据砂模式初步调整用水量
+
         final float mc=mw/wb;//胶凝材料用量
 
         float mf=mc/100*f;//粉煤灰质量
@@ -230,9 +268,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        //确定砂率
-
-        float bs= getsl(wb,tld,d)/100;//获取砂率(通过水灰比跟石头直径)
+        //确定砂率//如果开关是开
+        if (sw2.isChecked()){
+            float a=sb5.getProgress();
+            bs= Float.parseFloat(save2(a*100/10000));
+        }else {
+          bs= getsl(wb,tld,d)/100;//获取砂率(通过水灰比跟石头直径)
+              }
 //        float pg= (float) 2.65,pc= (float) 3.1,ps= (float) 2.6;//密度--可调
 //        //公式辅助值 体积法有bug
 //        float x= (float) (990-mw-(mc/3.1));
@@ -242,33 +284,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        final float ms=bs*mg/(1-bs);
 //        final float all=mc+mg+ms+mw;
         //容重法2350
-        float ms=(rz-mc-mw)*bs;
+        float ms=(rz-mc-mw)*bs;//未减水的细集料质量
         final float mg=ms*(1-bs)/bs;
 
-        ms=ms*(100+sw)/100;//砂的用量=砂*(1+含水率)
-        mw=mw-(ms*sw/100);//用水量=原用水量-砂的水量
+        float ms2=ms*(100+sw)/100;//砂的用量=砂*(1+含水率)//加了含水率后的沙子质量
+        mw=mw-(ms*sw/100);//用水量=原用水量-砂的水量//扣除含水后的水的质量
 
 
-        final float all=mc+mg+ms+mw;
+        final float all=mc+mg+ms2+mw;
 
 
 
         String string="容重法配比"+" 砂含水率"+getsw()+
-                "\n减水率"+j+
-                "\n水泥强度"+fce+"\n混凝土强度c"+c+"\n配制GB标准强度"+ getfcu0(c) +
+                "\n减水率"+j+ "%碎石最大直径"+d+"mm"+
+                "\n水泥强度"+fce +" 塌落度"+tld
+                +"\nC"+c+"配制GB标准强度"+ getfcu0(c) +
                 "\n理论胶砂强度"+fb+
                 "\n煤灰"+f+"%矿粉"+kf+"%"+
                 "\n设计所需水灰比"+ wb
-                +"\n塌落度"+tld
-                +"\n碎石最大直径"+d+"mm"+
-                "\n胶凝材料"+mc+
+               +"\n砂率"+bs+
                 "\n用水量"+mw+
-                "\n水泥用量"+mc*(100-f-kf)/100
-                +"\n煤灰用量"+mf
-                +"\n矿粉用量"+mkf
-                +"\n砂率"+bs+"\n石头"+mg+"\n砂"+ms+"\n合计"+all;
+                "\n胶凝材料"+save2(mc)+
+                 "\n[水泥"+save2(mc*(100-f-kf)/100)
+                +" 煤灰"+save2(mf)
+                +" 矿粉"+save2(mkf)
+                +"]\n砂"+save2(ms2)
+                +"\n石头"+save2(mg)+"\n合计"+all
+                +"\n胶凝:细集料:粗集料="+mc/mc+":"+save2(ms/mc)+":"+save2(mg/mc);
+
+        if(mw==0)string+="\n尾数1-5的塌落度可能不在规范表格范围内，请重新更改塌落度";
         return string;
     }
+
+    //保留2位数
+    private String save2(float f){
+        DecimalFormat format=new DecimalFormat("##0.00");
+        return format.format(f) ;}
 
     private void tssay(float wb) {
         String ts="";
@@ -454,6 +505,17 @@ float jz=0;//均值
         return  sw;
     }
 
+    /**通过砂的细度调整用水量**/
+    private float changmw(float mw){
+        if (sw3.isChecked())mw-=10;
+        if (sw4.isChecked())mw-=5;
+        if (sw5.isChecked())mw+=0;
+        if (sw6.isChecked())mw+=5;
+        if (sw7.isChecked())mw+=10;
+
+        return mw;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -534,6 +596,45 @@ float jz=0;//均值
 
 
 
+
+                //三个开关
+                case R.id.sw3:
+                    sw3.setChecked(true);
+                    sw4.setChecked(false);
+                    sw5.setChecked(false);
+                    sw6.setChecked(false);
+                    sw7.setChecked(false);
+                break;
+                case R.id.sw4:
+                    sw3.setChecked(false);
+                    sw4.setChecked(true);
+                    sw5.setChecked(false);
+                    sw6.setChecked(false);
+                    sw7.setChecked(false);
+                break;
+                case R.id.sw5:
+                    sw3.setChecked(false);
+                    sw4.setChecked(false);
+                    sw5.setChecked(true);
+                    sw6.setChecked(false);
+                    sw7.setChecked(false);
+                break;
+                case R.id.sw6:
+                    sw3.setChecked(false);
+                    sw4.setChecked(false);
+                    sw5.setChecked(false);
+                    sw6.setChecked(true);
+                    sw7.setChecked(false);
+                break;
+                case R.id.sw7:
+                    sw3.setChecked(false);
+                    sw4.setChecked(false);
+                    sw5.setChecked(false);
+                    sw6.setChecked(false);
+                    sw7.setChecked(true);
+                break;
+
+
             default:break;
         }
     }
@@ -557,6 +658,9 @@ float jz=0;//均值
                 tv4.setText("矿粉掺量"+progress);
                 kf=progress;
                 break;
+            case R.id.sb5:
+                tv5.setText("砂率"+progress);
+                break;
             default:break;
         }
     }
@@ -564,10 +668,7 @@ float jz=0;//均值
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         switch (seekBar.getId()){
-            case R.id.sb1:break;
-            case R.id.sb2:break;
-            case R.id.sb3:break;
-            case R.id.sb4:break;
+
             default:break;
         }
     }
@@ -579,6 +680,7 @@ float jz=0;//均值
             case R.id.sb2:tld=seekBar.getProgress();break;
             case R.id.sb3:f=seekBar.getProgress();break;
             case R.id.sb4:kf=seekBar.getProgress();break;
+            case R.id.sb5: break;//砂率不做调整
             default:break;
         }
     }
